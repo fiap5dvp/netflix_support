@@ -1,10 +1,14 @@
 const TicketModel = require("../models/TicketModel");
 
 class TicketController {
-  async create(req, res) {
+  async store(req, res) {
     const { comments } = req.body;
 
-    await TicketModel.create({ userId: req.user.id, comments });
+    await TicketModel.create({
+      userId: req.user.id,
+      userName: req.user.name,
+      comments,
+    });
 
     res.sendStatus(201);
   }

@@ -6,7 +6,7 @@ const TicketController = require("./controllers/TicketController");
 
 const routes = Router();
 
-routes.post("/api/tickets", AuthMiddleware, TicketController.create);
+routes.post("/api/tickets", AuthMiddleware, TicketController.store);
 routes.get("/api/tickets", AuthMiddleware, TicketController.list);
 
 module.exports = routes;

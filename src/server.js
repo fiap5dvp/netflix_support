@@ -5,33 +5,24 @@ const TreatExceptionMiddleware = require("./middlewares/TreatExceptionMiddleware
 
 const rabbitMQ = require("@joinf/rabbitmq");
 
+const AlterUserQueue = require("./queues/AlterUserQueue");
+
 const routes = require("./routes");
 
 class Server {
   constructor() {
     this.server = express();
 
-    // this.initializeBroker();
+    this.initializeBroker();
     this.middlewares();
     this.routes();
     this.exceptionHandler();
   }
 
-  /* async initializeBroker() {
-    // amqp://user:pass@host.com/vhost
-    //"amqp://localhost"
-    await rabbitMQ.init("amqp://user:12345@localhost");
-
-    rabbitMQ.consumer.listen("teste", ({ message, data, channel }) => {
-      console.log(data);
-      channel.ack(message);
-    });
-
-    rabbitMQ.consumer.listen("tickets", ({ message, data, channel }) => {
-      console.log(data);
-      channel.ack(message);
-    });
-  } */
+  async initializeBroker() {
+    await rabbitMQ.init("amqp://localhost");
+    rabbitMQ.consumer.listen("alter-user", AlterUserQueue);
+  }
 
   middlewares() {
     this.server.use(express.json());

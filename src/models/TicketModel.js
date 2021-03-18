@@ -18,7 +18,7 @@ class TicketModel {
     return movie;
   }
 
-  async create({ userId, comments }) {
+  async create({ userId, userName, comments }) {
     if (!userId) {
       throw {
         status: 400,
@@ -36,6 +36,7 @@ class TicketModel {
     await db.execute(
       `insert into tickets (
         user_id, 
+        user_name,
         comments,
         create_date,
         status
@@ -43,9 +44,10 @@ class TicketModel {
         $1,
         $2,
         $3,
-        $4
+        $4,
+        $5
       )`,
-      [userId, comments, new Date(), 0]
+      [userId, userName, comments, new Date(), 0]
     );
   }
 
@@ -58,6 +60,15 @@ class TicketModel {
     const movie = response.rows;
 
     return movie;
+  }
+
+  async changeUser(userId, props) {
+    const { name } = props;
+
+    await db.execute("Update tickets set user_name = $1 where user_id = $2", [
+      name,
+      userId,
+    ]);
   }
 }
 
