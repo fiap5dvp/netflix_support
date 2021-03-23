@@ -10,7 +10,7 @@ class TicketController {
       comments,
     });
 
-    res.sendStatus(201);
+    res.sendStatus(204);
   }
 
   async list(req, res) {
