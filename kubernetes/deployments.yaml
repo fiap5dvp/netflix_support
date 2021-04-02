@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: netflix-support
+  labels:
+    app: netflix-support
+  namespace: netflix
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: netflix-support
+  template:
+    metadata:
+      labels:
+        app: netflix-support
+    spec:
+      containers:
+      - name: netflix-support
+      image: 471524526724.dkr.ecr.us-east-1.amazonaws.com/netflix-support:latest
+      ports:
+      - containerPort: 3000
