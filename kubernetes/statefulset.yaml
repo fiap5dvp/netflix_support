@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: support-database
+spec:
+  selector:
+    matchLabels:
+      app: support-database
+  serviceName: support-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: support-database
+    spec:
+      containers:
+        - name: support-database
+          image: lucaslimas/fiap-netiflix:support
+          volumeMounts:
+            - name: support-db-disk
+              mountPath: /var/lib/supportql/data
+  volumeClaimTemplates:
+    - metadata:
+        name: support-db-disk
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 10Gi
